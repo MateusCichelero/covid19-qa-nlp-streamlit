@@ -1,4 +1,5 @@
 streamlit==0.81.1
+typer==0.4.0
 click==7.1.2
 spacy==3.0.6
 gdown==3.13

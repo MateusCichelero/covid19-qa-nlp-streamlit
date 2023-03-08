@@ -64,7 +64,7 @@ if (os.path.exists('dataset2_cord19.csv') == False):
 
 nltk.download('punkt') 
 nltk.download('wordnet')
-os.system("python -m spacy download pt_core_news_sm")
+#os.system("python -m spacy download pt_core_news_sm")
 
 nb = pickle.load(open('nb_pipeline.pkl', 'rb'))
 stop_words = pickle.load(open('stop_words.pkl', 'rb'))

@@ -24,31 +24,31 @@ def dummy(doc):
     return doc
 
 # load the models from disk
+
 @st.cache
 def download_docTFIDF():
     url = 'https://drive.google.com/uc?id=1Q4bCwKZGCwsEdAxq7VXsCgxNb2WaS0Mj'
     output = 'docTFIDF.pkl'
     gdown.download(url, output, quiet=False) 
-    
+
 @st.cache
 def download_queryTFIDF():
     url = 'https://drive.google.com/uc?id=1O5dKp53h_AaJgD9S2_VEVphRnt_LgPTU'
     output = 'queryTFIDF.pkl'
     gdown.download(url, output, quiet=False) 
-
+    
 @st.cache
 def download_datasetCORD19():
     url = 'https://drive.google.com/uc?id=1P8LtuS1u1-SRdTiJhWd14A1HsWev5cgb'
     output = 'dataset2_cord19.csv'
     gdown.download(url, output, quiet=False) 
 
-@st.cache
-def download_nlpMODEL():
-    url = 'https://drive.google.com/uc?id=11m0ckRF_VEWAO-vTtKUI_rsg6Yol-Acb'
-    output = 'nlp_model.pkl'
-    gdown.download(url, output, quiet=False) 
+#@st.cache
+#def download_nlpMODEL():
+#    url = 'https://drive.google.com/uc?id=11m0ckRF_VEWAO-vTtKUI_rsg6Yol-Acb'
+#    output = 'nlp_model.pkl'
+#    gdown.download(url, output, quiet=False) 
 
-nltk.download('punkt')
 
 if (os.path.exists('queryTFIDF.pkl') == False):
     download_queryTFIDF()
@@ -59,9 +59,12 @@ if (os.path.exists('docTFIDF.pkl') == False):
 if (os.path.exists('dataset2_cord19.csv') == False):
     download_datasetCORD19()
 
-if (os.path.exists('nlp_model.pkl') == False):
-    download_nlpMODEL()
+#if (os.path.exists('nlp_model.pkl') == False):
+#    download_nlpMODEL()
 
+nltk.download('punkt') 
+nltk.download('wordnet')
+os.system("python -m spacy download pt_core_news_sm")
 
 nb = pickle.load(open('nb_pipeline.pkl', 'rb'))
 stop_words = pickle.load(open('stop_words.pkl', 'rb'))
@@ -84,7 +87,7 @@ def removerAcentosECaracteresEspeciais(palavra):
     # Usa expressão regular para retornar a palavra apenas com números, letras e espaço
     return re.sub('[^a-zA-Z0-9? \\\]', '', palavraSemAcento)
 
-def tokeniza_lemmatiza(pergunta):
+def tokeniza_lemmatiza(pergunta, nlp):
      return [tok.lemma_ for tok in nlp(pergunta)]
     
 def to_lower(token_lemma):
@@ -225,12 +228,13 @@ if pergunta != '':
 
     translator= Translator(from_lang='pt',to_lang="en")
     pergunta_en = translator.translate(pergunta)
-    nlp = pickle.load(open('nlp_model.pkl', 'rb'))
+    #nlp = pickle.load(open('nlp_model.pkl', 'rb'))
+    nlp = spacy.load('pt_core_news_sm')
     entrada = stopword_removed(
         no_accen(
             no_punc(
                 to_lower(
-                    tokeniza_lemmatiza(pergunta)))))
+                    tokeniza_lemmatiza(pergunta, nlp)))))
     del nlp
     topico= nb.predict([entrada])[0]
     st.write(f'A pergunta foi classificada como sendo do tópico: {topico}')

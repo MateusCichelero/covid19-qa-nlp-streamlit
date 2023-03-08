@@ -24,27 +24,31 @@ def dummy(doc):
     return doc
 
 # load the models from disk
-
+@st.cache
 def download_docTFIDF():
     url = 'https://drive.google.com/uc?id=1Q4bCwKZGCwsEdAxq7VXsCgxNb2WaS0Mj'
     output = 'docTFIDF.pkl'
     gdown.download(url, output, quiet=False) 
-
+    
+@st.cache
 def download_queryTFIDF():
     url = 'https://drive.google.com/uc?id=1O5dKp53h_AaJgD9S2_VEVphRnt_LgPTU'
     output = 'queryTFIDF.pkl'
     gdown.download(url, output, quiet=False) 
-    
+
+@st.cache
 def download_datasetCORD19():
     url = 'https://drive.google.com/uc?id=1P8LtuS1u1-SRdTiJhWd14A1HsWev5cgb'
     output = 'dataset2_cord19.csv'
     gdown.download(url, output, quiet=False) 
 
+@st.cache
 def download_nlpMODEL():
     url = 'https://drive.google.com/uc?id=11m0ckRF_VEWAO-vTtKUI_rsg6Yol-Acb'
     output = 'nlp_model.pkl'
     gdown.download(url, output, quiet=False) 
 
+nltk.download('punkt')
 
 if (os.path.exists('queryTFIDF.pkl') == False):
     download_queryTFIDF()

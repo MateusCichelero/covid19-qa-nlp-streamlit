@@ -10,7 +10,7 @@ The application returns information from several input questions about the pande
 The datasets used in this approach were obtained from websites of Brazilian Ministry of Health, Fiocruz Foundation, Laura PA Digital and CORD-19.
 
 ## Link to the web application:
-[](https://ptbr-duvidas-covid19.streamlit.app/)
+[https://ptbr-duvidas-covid19.streamlit.app/](https://ptbr-duvidas-covid19.streamlit.app/)
 
 ## Members: 
 =======
